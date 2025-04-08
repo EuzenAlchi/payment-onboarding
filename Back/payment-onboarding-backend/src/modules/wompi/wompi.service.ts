@@ -132,4 +132,29 @@ export class WompiService {
       );
     }
   }
+
+  async getTransactionStatus(transactionId: string): Promise<any> {
+    const headers = {
+      Authorization: `Bearer ${this.privateKey}`,
+      'Content-Type': 'application/json',
+    };
+  
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`${this.apiUrl}/transactions/${transactionId}`, {
+          headers,
+        }),
+      );
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error consultando estado de la transacción:');
+      console.error('Status:', error.response?.status);
+      console.error('Data:', error.response?.data);
+      throw new HttpException({
+        message: 'Error consultando el estado de la transacción',
+        wompiError: error.response?.data || null,
+      }, error.response?.status || 500);
+    }
+  }  
 }
+

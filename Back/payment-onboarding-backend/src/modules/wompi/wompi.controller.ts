@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { WompiService } from './wompi.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 
@@ -9,5 +9,10 @@ export class WompiController {
   @Post('transaction') // Ruta completa: POST /wompi/transaction
   async createTransaction(@Body() dto: CreateTransactionDto) {
     return this.wompiService.createTransaction(dto);
+  }
+
+  @Get('transaction-status/:id')
+  async getTransactionStatus(@Param('id') id: string) {
+    return this.wompiService.getTransactionStatus(id);
   }
 }
