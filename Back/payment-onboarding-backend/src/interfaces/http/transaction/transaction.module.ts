@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TransactionController } from './transaction.controller';
-import { TransactionService } from '../../../app/transaction/transaction.service';
+import { WompiModule } from '../../../modules/wompi/wompi.module';
 
 @Module({
+  imports: [WompiModule], // 👈 agregar aquí
   controllers: [TransactionController],
-  providers: [TransactionService], // Asegúrate que esto esté aquí
 })
 export class TransactionModule {}
