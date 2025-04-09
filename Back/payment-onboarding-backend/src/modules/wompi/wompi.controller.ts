@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Headers } from '@nestjs/common';
 import { WompiService } from './wompi.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { WompiWebhookDto } from './dto/wompi-webhook.dto';
 
 @Controller('wompi') // Ruta base: /wompi
 export class WompiController {
@@ -14,5 +15,13 @@ export class WompiController {
   @Get('transaction-status/:id')
   async getTransactionStatus(@Param('id') id: string) {
     return this.wompiService.getTransactionStatus(id);
+  }
+
+  @Post('webhook')
+  async handleWebhook(
+    @Body() body: WompiWebhookDto,
+    @Headers('X-Signature') xSignature: string,
+  ) {
+    return this.wompiService.handleWebhook(body, xSignature);
   }
 }

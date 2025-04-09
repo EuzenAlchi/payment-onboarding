@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { WompiWebhookDto } from './dto/wompi-webhook.dto';
 import { firstValueFrom } from 'rxjs';
 import * as crypto from 'crypto';
 
@@ -156,5 +157,15 @@ export class WompiService {
       }, error.response?.status || 500);
     }
   }  
+
+  async handleWebhook(payload: WompiWebhookDto, xSignature: string): Promise<any> {
+    // Validación opcional: puedes verificar la firma usando el `wompi_events_key` si quieres validar la autenticidad
+  
+    console.log('📥 Webhook recibido:', payload.event);
+    console.log('📦 Transacción:', payload.data.transaction);
+  
+    // Aquí puedes guardar o actualizar el estado de la transacción en la base de datos, si tienes una
+    return { message: 'Webhook recibido correctamente' };
+  }
 }
 
