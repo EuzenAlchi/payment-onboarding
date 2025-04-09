@@ -1,5 +1,3 @@
-// src/domain/models/transaction.model.ts
-
 export class Transaction {
     constructor(
       public readonly id: string,
@@ -10,5 +8,6 @@ export class Transaction {
       public readonly paymentMethodType: string,
       public readonly status: string,
       public readonly createdAt: Date,
+      public wompiTransactionId?: string
     ) {}
   }

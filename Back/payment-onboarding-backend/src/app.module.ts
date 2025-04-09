@@ -1,27 +1,39 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { TransactionModule } from './interfaces/http/transaction/transaction.module';
 import { WompiModule } from './modules/wompi/wompi.module';
+import { TypeOrmPersistenceModule } from './infrastructure/persistence/typeorm/typeorm.module'; // 👈 importa tu módulo de persistencia
 
 @Module({
   imports: [
-    // Carga variables desde el archivo .env automáticamente
-    ConfigModule.forRoot({
-      isGlobal: true, // Para que este disponible en toda la app
+    ConfigModule.forRoot({ isGlobal: true }),
+
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get<string>('DB_HOST') || 'localhost',
+        port: parseInt(config.get<string>('DB_PORT') || '5432', 10),
+        username: config.get<string>('DB_USERNAME') || 'postgres',
+        password: config.get<string>('DB_PASSWORD') || 'postgres',
+        database: config.get<string>('DB_NAME') || 'wompi_payments',
+        autoLoadEntities: true,
+        synchronize: true, // cuidado en prod
+        logging: true,
+      }),
     }),
 
-    // Modulo HTTP para hacer requests (lo usa wompi.service.ts)
     HttpModule,
-
-    // Tu módulo de transacciones
+    TypeOrmPersistenceModule, // 👈 IMPORTANTE: aquí se registra tu implementación
     TransactionModule,
-
-    // Módulo Wompi donde creaste wompi.service.ts
     WompiModule,
   ],
   controllers: [AppController],

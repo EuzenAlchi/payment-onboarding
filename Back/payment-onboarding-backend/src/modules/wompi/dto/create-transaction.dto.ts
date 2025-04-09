@@ -1,4 +1,3 @@
-// src/wompi/dto/create-transaction.dto.ts
 export class CreateTransactionDto {
   amount_in_cents: number;
   currency: string;

@@ -1,14 +1,11 @@
 import { HttpService } from '@nestjs/axios';
-import {
-  Injectable,
-  InternalServerErrorException,
-  HttpException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException, HttpException, } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { WompiWebhookDto } from './dto/wompi-webhook.dto';
 import { firstValueFrom } from 'rxjs';
 import * as crypto from 'crypto';
+import { TransactionService } from 'src/app/transaction/transaction.service';
 
 @Injectable()
 export class WompiService {
@@ -20,6 +17,7 @@ export class WompiService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly transactionService: TransactionService,
   ) {
     this.apiUrl = this.configService.get<string>('WOMPI_API_URL')!;
     this.privateKey = this.configService.get<string>('WOMPI_PRIVATE_KEY')!;
@@ -117,6 +115,8 @@ export class WompiService {
           headers,
         }),
       );
+
+      await this.transactionService.saveTransaction(response.data);
 
       return response.data;
     } catch (error) {
