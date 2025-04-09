@@ -1,4 +1,3 @@
-// src/modules/wompi/dto/wompi-webhook.dto.ts
 export class WompiWebhookDto {
   event: string;
   data: {

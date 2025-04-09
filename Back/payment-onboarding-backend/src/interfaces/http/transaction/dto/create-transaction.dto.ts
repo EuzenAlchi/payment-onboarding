@@ -1,5 +1,3 @@
-// src/interfaces/http/transaction/dto/create-transaction.dto.ts
-
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateTransactionDto {
