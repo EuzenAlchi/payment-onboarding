@@ -1,0 +1,5 @@
+# Evitar que node_modules se suba si se pone por error
+node_modules/
+*.log
+.env
+.DS_Store
