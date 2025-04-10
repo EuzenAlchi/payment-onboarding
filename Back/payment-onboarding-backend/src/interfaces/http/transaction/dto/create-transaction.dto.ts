@@ -1,7 +1,9 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class CreateTransactionDto {
   @IsNumber()
+  @Expose({ name: 'amount_in_cents' })
   amountInCents: number;
 
   @IsString()
@@ -9,6 +11,7 @@ export class CreateTransactionDto {
   currency: string;
 
   @IsEmail()
+  @Expose({ name: 'customer_email' })
   customerEmail: string;
 
   @IsString()
@@ -17,5 +20,9 @@ export class CreateTransactionDto {
 
   @IsString()
   @IsNotEmpty()
+  @Expose({ name: 'payment_method_type' })
   paymentMethodType: string;
+
+  @Expose({ name: 'redirect_url' })
+  redirectUrl?: string;
 }
