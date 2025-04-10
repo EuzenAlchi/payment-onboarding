@@ -8,6 +8,11 @@ async function bootstrap() {
   // 👉 Habilita la validación automática para todos los DTOs
   app.useGlobalPipes(new ValidationPipe());
 
+  app.enableCors({
+    origin: '*',
+  });
+
   await app.listen(process.env.PORT ?? 3000);
+
 }
 bootstrap();
