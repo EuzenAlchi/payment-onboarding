@@ -83,6 +83,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+import api from '@/services/api' 
 
 const loading = ref(false)
 const route = useRoute()
@@ -213,7 +214,7 @@ async function submitForm() {
         },
         }
 
-        const res = await axios.post('http://localhost:3000/wompi/transaction', payload)
+        const res = await api.post('/wompi/transaction', payload)
         console.log('✅ Transacción creada:', res.data)
 
         if (res.data?.data?.id) {
