@@ -20,8 +20,8 @@
   
   <script setup lang="ts">
   import { onMounted, ref, computed } from 'vue'
-  import axios from 'axios'
   import { useRoute } from 'vue-router'
+  import api from '@/services/api' 
   
   const route = useRoute()
   const reference = ref<string | null>(null)
@@ -47,11 +47,8 @@
       return
     }
   
-    const endpoint = `http://localhost:3000/wompi/transaction-by-reference/${reference.value}`
-    console.log('📡 URL a consumir:', endpoint)
-  
     try {
-      const res = await axios.get(endpoint)
+      const res = await api.get(`/wompi/transaction-by-reference/${reference.value}`)
       console.log('✅ Respuesta recibida:', res.data)
   
       const data = res.data

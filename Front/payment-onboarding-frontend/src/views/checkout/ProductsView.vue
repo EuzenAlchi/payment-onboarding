@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
+import api from '@/services/api' 
 
 interface Product {
     id: number
@@ -76,7 +77,7 @@ const cart = ref<{ product: Product; quantity: number }[]>([])
 const quantities = ref<Record<number, number>>({})
 
 onMounted(async () => {
-    const res = await axios.get<Product[]>('http://localhost:3000/products')
+    const res = await api.get<Product[]>('/products')
     products.value = res.data
 })
 
