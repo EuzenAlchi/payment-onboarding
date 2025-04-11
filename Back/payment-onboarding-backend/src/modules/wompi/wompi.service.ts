@@ -115,7 +115,6 @@ export class WompiService {
           headers,
         }),
       );
-
       await this.transactionService.saveTransaction(response.data);
 
       return response.data;
