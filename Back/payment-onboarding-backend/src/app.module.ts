@@ -1,4 +1,3 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
@@ -8,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { TransactionModule } from './interfaces/http/transaction/transaction.module';
+import { ProductModule } from './app/product/product.module';
 import { WompiModule } from './modules/wompi/wompi.module';
 import { TypeOrmPersistenceModule } from './infrastructure/persistence/typeorm/typeorm.module'; // 👈 importa tu módulo de persistencia
 
@@ -32,9 +32,10 @@ import { TypeOrmPersistenceModule } from './infrastructure/persistence/typeorm/t
     }),
 
     HttpModule,
-    TypeOrmPersistenceModule, // 👈 IMPORTANTE: aquí se registra tu implementación
+    TypeOrmPersistenceModule,
     TransactionModule,
     WompiModule,
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],

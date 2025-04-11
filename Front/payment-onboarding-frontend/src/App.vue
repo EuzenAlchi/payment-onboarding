@@ -8,7 +8,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <h1>Payment Onboarding</h1>
       <nav>
         <RouterLink to="/">Inicio</RouterLink>
-        <RouterLink to="/checkout">Checkout</RouterLink>
+        <RouterLink to="/checkout">Products</RouterLink>
       </nav>
     </header>
 
