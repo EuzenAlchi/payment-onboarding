@@ -42,4 +42,10 @@ export class WompiController {
       throw new InternalServerErrorException('Error procesando el webhook');
     }
   }
+
+  @Get('transaction-by-reference/:reference')
+    async getByReference(@Param('reference') reference: string) {
+    return this.wompiService.getTransactionByReference(reference);
+  }
+
 }
