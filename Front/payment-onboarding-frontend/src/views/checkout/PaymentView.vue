@@ -4,7 +4,7 @@
       <form @submit.prevent="submitForm">
         <input v-model="form.customer_email" type="email" placeholder="Correo electrónico (ej: cliente@correo.com)" required />
   
-        <input v-model="form.phone_number" type="text" placeholder="Teléfono (ej: 573001234567)" required />
+        <input v-model="form.phone_number" type="text" placeholder="Teléfono (ej: 3001234567)" required />
   
         <input v-model="form.full_name" type="text" placeholder="Nombre completo" required />
   
@@ -25,9 +25,6 @@
   
         <input v-model.number="form.amount_in_cents" type="number" placeholder="Monto en centavos (ej: 300000)" required />
   
-        <input v-model="form.redirect_url" type="text" placeholder="URL de redirección (ej: https://mitienda.com.co/pago/resultado)" required />
-  
-        <!-- reference se genera automáticamente -->
         <input type="hidden" v-model="form.reference" />
   
         <button type="submit" :disabled="loading">
@@ -57,16 +54,84 @@
     amount_in_cents: 300000,
     currency: 'COP',
     payment_method_type: 'CARD',
-    redirect_url: '',
-    reference: '', // Se genera automáticamente
+    redirect_url: `${window.location.origin}/resultado`, // ✅ se genera automáticamente
+    reference: '',
   })
   
-  // Función para generar una referencia aleatoria
   function generateReference() {
     return 'REF_' + Math.random().toString(36).substring(2, 12).toUpperCase()
   }
   
+  function validarCampos() {
+    const errores: string[] = []
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(form.value.customer_email)) {
+      errores.push('El correo electrónico no tiene un formato válido.')
+    }
+  
+    const telefono = form.value.phone_number.replace(/\D/g, '')
+    if (!/^3\d{9}$/.test(telefono)) {
+      errores.push('El número de teléfono debe tener 10 dígitos y comenzar con 3 (ej: 3001234567).')
+    }
+  
+    if (!form.value.full_name || form.value.full_name.length < 3) {
+      errores.push('El nombre completo debe tener al menos 3 caracteres.')
+    }
+  
+    const tiposPermitidos = ['CC', 'CE', 'Pasaporte']
+    if (!tiposPermitidos.includes(form.value.legal_id_type)) {
+      errores.push('Debes seleccionar un tipo de documento válido.')
+    }
+  
+    if (!/^\d{6,}$/.test(form.value.legal_id)) {
+      errores.push('El número de documento debe tener al menos 6 dígitos numéricos.')
+    }
+  
+    const tarjeta = form.value.card_number.replace(/\s+/g, '')
+    if (!/^\d{16}$/.test(tarjeta)) {
+      errores.push('El número de tarjeta debe tener exactamente 16 dígitos.')
+    }
+  
+    const mes = parseInt(form.value.exp_month)
+    if (isNaN(mes) || mes < 1 || mes > 12) {
+      errores.push('El mes de expiración debe estar entre 1 y 12.')
+    }
+  
+    const añoActual = new Date().getFullYear() % 100
+    const año = parseInt(form.value.exp_year)
+    if (isNaN(año) || año < añoActual) {
+      errores.push('El año de expiración debe ser igual o mayor al actual.')
+    }
+  
+    if (!/^\d{3}$/.test(form.value.cvc)) {
+      errores.push('El CVC debe tener exactamente 3 dígitos.')
+    }
+  
+    if (!form.value.card_holder || form.value.card_holder.length < 2) {
+      errores.push('El nombre del titular debe tener al menos 2 caracteres.')
+    }
+  
+    if (!form.value.amount_in_cents || form.value.amount_in_cents <= 0) {
+      errores.push('El monto debe ser mayor a 0.')
+    }
+  
+    try {
+      new URL(form.value.redirect_url)
+    } catch (_) {
+      errores.push('La URL de redirección no es válida.')
+    }
+  
+    return errores
+  }
+  
   async function submitForm() {
+    const errores = validarCampos()
+    if (errores.length > 0) {
+      alert('❌ Corrige los siguientes errores:\n\n' + errores.join('\n'))
+      return
+    }
+  
     try {
       loading.value = true
       form.value.reference = generateReference()
@@ -97,12 +162,13 @@
       const res = await axios.post('http://localhost:3000/wompi/transaction', payload)
       console.log('✅ Transacción creada:', res.data)
   
-      // Redirigir al checkout de Wompi si existe
-      if (res.data && res.data.data && res.data.data.checkout_url) {
-        window.location.href = res.data.data.checkout_url
+      if (res.data?.data?.id) {
+        // Redirige directamente al resultado
+        window.location.href = `${window.location.origin}/resultado?reference=${form.value.reference}`
       } else {
-        alert('La transacción fue creada, pero no se recibió la URL de redirección.')
+        alert('La transacción fue creada, pero no se recibió información válida de Wompi.')
       }
+
     } catch (error: any) {
       console.error('❌ Error al crear transacción:', error)
       alert('Ocurrió un error al procesar el pago. Revisa la consola para más detalles.')

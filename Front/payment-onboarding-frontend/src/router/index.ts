@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import ResultadoView from '../views/checkout/ResultadoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,11 @@ const router = createRouter({
       name: 'checkout',
       component: () => import('../views/checkout/PaymentView.vue'), // 👈 Aquí conectamos tu vista
     },
+    {
+      path: '/resultado',
+      name: 'resultado',
+      component: ResultadoView,
+    }
   ],
 });
 
