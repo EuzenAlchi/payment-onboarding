@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -14,5 +13,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
+  },
+  server: {
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,  // Convertir a número
   },
 })
