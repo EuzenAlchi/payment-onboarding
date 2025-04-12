@@ -3,7 +3,8 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-// https://vite.dev/config/
+const port = process.env.PORT && !isNaN(Number(process.env.PORT)) ? parseInt(process.env.PORT) : 3001;
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -15,6 +16,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3001, 
+    port,
   },
 })
