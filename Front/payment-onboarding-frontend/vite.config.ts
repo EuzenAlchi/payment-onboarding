@@ -15,6 +15,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,  // Convertir a número
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3001, 
   },
 })
