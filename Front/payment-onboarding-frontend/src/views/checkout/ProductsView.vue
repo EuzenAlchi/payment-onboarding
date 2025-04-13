@@ -124,6 +124,7 @@ function getCurrentQuantity(product: Product): number {
 }
 </script>
 
+
 <style scoped>
 .products-container {
   max-width: 900px;
@@ -134,7 +135,7 @@ function getCurrentQuantity(product: Product): number {
 .loading-message {
   text-align: center;
   font-size: 1.2rem;
-  color: #42b983;
+  color: var(--color-accent);
   margin-bottom: 1rem;
 }
 
@@ -143,12 +144,14 @@ function getCurrentQuantity(product: Product): number {
   flex-direction: row;
   justify-content: space-between;
   gap: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   padding: 1rem;
   margin-bottom: 1rem;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: var(--card-background-dark);
+  color: var(--card-text-dark);
   flex-wrap: wrap;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .product-info {
@@ -168,11 +171,13 @@ function getCurrentQuantity(product: Product): number {
   width: 100%;
   padding: 0.5rem;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
+  background-color: var(--input-background);
+  color: var(--input-text);
 }
 
 .product-actions button {
-  background-color: #42b983;
+  background-color: var(--color-accent);
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -187,7 +192,7 @@ function getCurrentQuantity(product: Product): number {
 
 .cart {
   margin-top: 2rem;
-  border-top: 2px solid #42b983;
+  border-top: 2px solid var(--color-accent);
   padding-top: 1rem;
 }
 
