@@ -5,43 +5,31 @@
     <div v-if="loading" class="loading-message">🔄 Cargando productos, por favor espera...</div>
 
     <div v-else>
-      <!-- Tabla de productos -->
-      <table class="product-table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in products" :key="product.id">
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>${{ product.price.toLocaleString() }}</td>
-            <td>{{ product.stock }}</td>
-            <td>
-              <input
-                type="number"
-                min="1"
-                :max="product.stock"
-                v-model.number="quantities[product.id]"
-                placeholder="Cantidad"
-                :disabled="getCurrentQuantity(product) >= product.stock"
-              />
-
-              <button
-                :disabled="!product.available || quantities[product.id] < 1"
-                @click="addToCart(product)"
-              >
-                Añadir al carrito
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Productos en formato tabla para escritorio y lista para móvil -->
+      <div class="product-card" v-for="product in products" :key="product.id">
+        <div class="product-info">
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <p><strong>Precio:</strong> ${{ product.price.toLocaleString() }}</p>
+          <p><strong>Stock:</strong> {{ product.stock }}</p>
+        </div>
+        <div class="product-actions">
+          <input
+            type="number"
+            min="1"
+            :max="product.stock"
+            v-model.number="quantities[product.id]"
+            placeholder="Cantidad"
+            :disabled="getCurrentQuantity(product) >= product.stock"
+          />
+          <button
+            :disabled="!product.available || quantities[product.id] < 1"
+            @click="addToCart(product)"
+          >
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
 
       <!-- Carrito -->
       <div class="cart" v-if="cart.length">
@@ -81,10 +69,9 @@ const loading = ref(false)
 
 onMounted(async () => {
   loading.value = true
-
   let intentos = 0
   const maxIntentos = 10
-  const esperaEntreIntentos = 6000 // 6 segundos
+  const esperaEntreIntentos = 6000
 
   while (intentos < maxIntentos) {
     try {
@@ -94,7 +81,6 @@ onMounted(async () => {
     } catch (error) {
       intentos++
       console.warn(`🔁 Intento ${intentos} fallido para cargar productos`)
-
       if (intentos === maxIntentos) {
         alert('❌ No se pudo conectar con el servidor. Intenta más tarde.')
       } else {
@@ -140,7 +126,7 @@ function getCurrentQuantity(product: Product): number {
 
 <style scoped>
 .products-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 1rem;
 }
@@ -152,53 +138,49 @@ function getCurrentQuantity(product: Product): number {
   margin-bottom: 1rem;
 }
 
-.product-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-}
-
-.product-table th,
-.product-table td {
+.product-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid #ccc;
   padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  flex-wrap: wrap;
 }
 
-.product-table th {
-  background-color: var(--vt-c-indigo);
-  color: var(--vt-c-white);
+.product-info {
+  flex: 2;
 }
 
-.product-table td {
-  background-color: var(--color-background-soft);
+.product-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.product-table tr:nth-child(even) td {
-  background-color: var(--color-background-mute);
+.product-actions input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
-.product-table input {
-  width: 60px;
-  margin: 0.5rem 0;
-}
-
-.product-table button {
+.product-actions button {
   background-color: #42b983;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  margin-top: 0.5rem;
   border-radius: 5px;
-  transition: background-color 0.3s;
 }
 
-.product-table button:hover {
-  background-color: #2c9a58;
-}
-
-.product-table button:disabled {
+.product-actions button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
@@ -237,12 +219,21 @@ function getCurrentQuantity(product: Product): number {
   font-weight: bold;
 }
 
-.cart button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
 .router-link {
   margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .product-card {
+    flex-direction: column;
+  }
+
+  .product-actions input {
+    width: 100%;
+  }
+
+  .product-actions {
+    align-items: stretch;
+  }
 }
 </style>
