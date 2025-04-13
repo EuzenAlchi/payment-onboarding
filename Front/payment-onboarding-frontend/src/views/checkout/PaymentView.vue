@@ -231,86 +231,104 @@ async function submitForm() {
 }
 </script>
   
-<style scoped>
 .payment-form {
-  max-width: 600px;
-  margin: 2rem auto;
-  background-color: #1a1a1a; /* Fondo oscuro */
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3); /* Sombra más suave */
-  color: #fff; /* Texto blanco */
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-group label {
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-  color: #fff; /* Color de texto blanco */
-}
-
-.form-group input,
-.form-group select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 5px;
-  background-color: #333; /* Fondo oscuro para los campos */
-  color: #fff; /* Texto blanco */
-  border: 1px solid #555; /* Borde gris claro */
-}
-
-.form-row {
-  display: flex;
-  gap: 1rem;
-}
-
-.form-row .form-group.half {
-  flex: 1;
-}
-
-.form-row .form-group.third {
-  flex: 1;
-}
-
-.form-group input::placeholder {
-  color: #bbb; /* Color más claro para el placeholder */
-}
-
-button {
-  background-color: #42b983;
-  color: white;
-  border: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 1rem;
-}
-
-button:disabled {
-  background-color: #ccc;
-}
-
-.amount {
-  background-color: #333;
-  padding: 0.75rem;
-  border-radius: 5px;
-  color: #fff; /* Texto blanco */
-}
-
-/* Asegurar que los campos de fecha y CVC sean del mismo tamaño */
-.form-row .form-group.third input {
-  width: 100%; /* Ocupa todo el espacio disponible */
-}
-
-</style>
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    color: #fff;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+    color: #fff;
+  }
+  
+  .form-group input,
+  .form-group select {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    width: 100%;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .form-row .form-group.half {
+    flex: 1 1 48%;
+  }
+  
+  .form-row .form-group.third {
+    flex: 1 1 30%;
+  }
+  
+  .form-group input::placeholder {
+    color: #bbb;
+  }
+  
+  button {
+    background-color: #42b983;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+  }
+  
+  .amount {
+    background-color: #333;
+    padding: 0.75rem;
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+  }
+  
+  /* Responsive para móviles */
+  @media (max-width: 600px) {
+    .payment-form {
+      padding: 1rem;
+    }
+  
+    .form-row {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  
+    .form-row .form-group.half,
+    .form-row .form-group.third {
+      flex: 1 1 100%;
+    }
+  
+    button {
+      font-size: 1rem;
+      padding: 0.75rem;
+    }
+  }  
