@@ -70,13 +70,15 @@ onMounted(async () => {
 })
 </script>
 
+
 <style scoped>
 .resultado-container {
   max-width: 600px;
   margin: 2rem auto;
   padding: 2rem;
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: var(--color-background-soft);
+  color: var(--color-text);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -84,29 +86,28 @@ onMounted(async () => {
 .estado {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: #333;
 }
 
 .estado-cargando {
-  color: #42b983;
+  color: var(--color-accent);
 }
 
 .estado-error {
-  color: #d9534f;
+  color: rgba(220, 53, 69, 1); /* rojo Bootstrap */
 }
 
 .aprobado {
-  color: green;
+  color: var(--color-accent);
   font-weight: bold;
 }
 
 .rechazado {
-  color: red;
+  color: rgba(220, 53, 69, 1); /* rojo Bootstrap */
   font-weight: bold;
 }
 
 .pendiente {
-  color: orange;
+  color: rgba(255, 165, 0, 1); /* naranja */
   font-weight: bold;
 }
 

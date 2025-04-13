@@ -1,5 +1,6 @@
 <template>
   <div class="products-container">
+    <div class="table-container">
     <h2>Catálogo de Productos</h2>
 
     <div v-if="loading" class="loading-message">🔄 Cargando productos, por favor espera...</div>
@@ -14,7 +15,7 @@
           <p><strong>Stock:</strong> {{ product.stock }}</p>
         </div>
         <div class="product-actions">
-          <input
+          <input class="input"
             type="number"
             min="1"
             :max="product.stock"
@@ -22,7 +23,7 @@
             placeholder="Cantidad"
             :disabled="getCurrentQuantity(product) >= product.stock"
           />
-          <button
+          <button class="button"
             :disabled="!product.available || quantities[product.id] < 1"
             @click="addToCart(product)"
           >
@@ -37,16 +38,17 @@
         <ul>
           <li v-for="item in cart" :key="item.product.id">
             {{ item.product.name }} - {{ item.quantity }} unidad(es) - Total: ${{ (item.product.price * item.quantity).toLocaleString() }}
-            <button @click="removeFromCart(item.product.id)">❌</button>
+            <button class="button" @click="removeFromCart(item.product.id)">❌</button>
           </li>
         </ul>
         <p><strong>Total a pagar:</strong> ${{ total.toLocaleString() }}</p>
         <router-link :to="{ name: 'payment', query: { amount: total * 100 } }">
-          <button>Pagar</button>
+          <button class="button">Pagar</button>
         </router-link>
       </div>
     </div>
   </div>
+</div> <!-- cierre de .products-container -->
 </template>
 
 <script setup lang="ts">
