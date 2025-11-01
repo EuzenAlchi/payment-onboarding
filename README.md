@@ -1,11 +1,11 @@
-# ?? Payment Onboarding - Fullstack Test
+#  Payment Onboarding - Fullstack Test
 
-Prueba t谷cnica Fullstack integrando pasarela de pagos **Wompi** en entorno Sandbox.  
+Prueba técnica Fullstack integrando pasarela de pagos **Wompi** en entorno Sandbox.  
 Incluye frontend en **Vue 3 + Vuex** y backend en **NestJS + PostgreSQL**, bajo arquitectura **Hexagonal**.
 
 ---
 
-## ?? Tecnolog赤as
+##  Tecnologías
 
 | Frontend     | Backend      | Otros                    |
 |--------------|--------------|---------------------------|
@@ -15,13 +15,13 @@ Incluye frontend en **Vue 3 + Vuex** y backend en **NestJS + PostgreSQL**, bajo 
 
 ---
 
-## ?? Estructura del proyecto
+##  Estructura del proyecto
 
 --- frontend/ # Proyecto Vue 3 --- backend/ # Proyecto NestJS --- docker/ # (opcional) Archivos para despliegue --- README.md # Este archivo
 
 ---
 
-## ?? Instalacion
+##  Instalacion
 
 ### Backend (NestJS)
 
@@ -50,34 +50,34 @@ npm run test:cov
 
 npm run test:unit
 
-?? Flujo de Pago con Wompi
-?? Obtencion de acceptance_token
+## Flujo de Pago con Wompi
+## Obtencion de acceptance_token
 
-?? Generacion del token de tarjeta
+## Generacion del token de tarjeta
 
-?? Firma de integridad con SHA256
+## Firma de integridad con SHA256
 
-?? Creacion de transaccion con token
+## Creacion de transaccion con token
 
-?? Redireccion automotica segun estado
+## Redireccion automotica segun estado
 
-?? Recepcion y manejo de webhook
+## Recepcion y manejo de webhook
 
-?? Consulta de transaccion por referencia
+## Consulta de transaccion por referencia
 
 Autor
 
 Francisco Galindo
 
-?? Notas
+ Notas
 Este proyecto fue desarrollado como parte de una prueba tecnica para evaluar conocimientos Fullstack, integracion de APIs de terceros, manejo de seguridad (firmas), validacion de datos, testing y diseño modular.
 
 
-? Estado del Proyecto
+ Estado del Proyecto
 Criterio	Estado
-Flujo completo de pago con Wompi	? Hecho
-Pruebas unitarias con cobertura > 80%	? Hecho
-Integracion base de datos PostgreSQL	? Hecho
-Webhook y validacion de eventos	? Hecho
-Documentacion general del proyecto	? Hecho
-Deploy en entorno cloud (ej. AWS)	?? Pendiente
+Flujo completo de pago con Wompi	- Hecho
+Pruebas unitarias con cobertura > 80%	- Hecho
+Integracion base de datos PostgreSQL	- Hecho
+Webhook y validacion de eventos	- Hecho
+Documentacion general del proyecto	- Hecho
+Deploy en entorno cloud (ej. AWS)	- Pendiente
